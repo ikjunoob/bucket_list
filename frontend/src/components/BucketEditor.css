@@ -1,16 +1,16 @@
-.TodoEditor {
+.bucketEditor {
     display: flex;
     gap: 10px;
 }
 
-.TodoEditor input {
+.bucketEditor input {
     flex: 1;
     padding: 15px;
     border: 1px solid #eee;
     border-radius: 5px;
 }
 
-.TodoEditor button {
+.bucketEditor button {
     border: 1px solid #eee;
     border-radius: 5px;
     cursor: pointer;

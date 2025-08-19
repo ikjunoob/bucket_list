@@ -1,4 +1,4 @@
-.TodoItem {
+.bucketItem {
     display: flex;
     gap: 20px;
     padding: 10px 0;
@@ -6,15 +6,15 @@
     /* justify-content: space-between; */
 }
 
-.TodoItem.isCompleted {
+.bucketItem.isCompleted {
     background-color: #f1f1f1;
 }
 
-.TodoItem .content {
+.bucketItem .content {
     flex: 1;
 }
 
-.TodoItem .date {
+.bucketItem .date {
     font-size: 14px;
     color: gray;
 }
@@ -24,7 +24,7 @@
     gap: 10px;
 }
 
-.TodoItem button {
+.bucketItem button {
     cursor: pointer;
     font-size: 14px;
     border: none;
@@ -41,7 +41,7 @@
     background-color: rgb(255, 121, 112);
 }
 
-.TodoItem.isCompleted .content {
+.bucketItem.isCompleted .content {
     text-decoration: line-through;
     color: gray;
 }

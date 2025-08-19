@@ -1,7 +1,7 @@
-// models/todo.js
+// models/bucket.js
 const mongoose = require("mongoose");
 
-const todoSchema = new mongoose.Schema(
+const bucketSchema = new mongoose.Schema(
     {
         text: { type: String, required: true, trim: true },
         isCompleted: { type: Boolean, default: false },
@@ -10,4 +10,4 @@ const todoSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-module.exports = mongoose.model("Todo", todoSchema);
+module.exports = mongoose.model("bucket", bucketSchema);

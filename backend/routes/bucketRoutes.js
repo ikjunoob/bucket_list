@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router();
-const Todo = require("../models/todo");
+const bucket = require("../models/bucket");
 const { default: mongoose } = require("mongoose");
 
 
@@ -16,9 +16,9 @@ const ensureObjectId = (id, res) => {
 // ➤ 할 일 추가하기
 router.post("/", async (req, res) => {
     try {
-        const newTodo = new Todo(req.body);
-        const savedTodo = await newTodo.save();
-        res.status(201).json(savedTodo);
+        const newbucket = new bucket(req.body);
+        const savedbucket = await newbucket.save();
+        res.status(201).json(savedbucket);
     } catch (err) {
         res.status(400).json({ error: "할 일을 저장하지 못했습니다." });
     }
@@ -27,8 +27,8 @@ router.post("/", async (req, res) => {
 // 다 불러오기
 router.get("/", async (req, res) => {
     try {
-        const todos = await Todo.find().sort({ createdAt: -1 })
-        res.status(200).json({ message: " todo 전체 불러오기 성공.", todos })
+        const buckets = await bucket.find().sort({ createdAt: -1 })
+        res.status(200).json({ message: " bucket 전체 불러오기 성공.", buckets })
     } catch (error) {
         res.status(500).json({ message: "데이터를 불러오지 못했습니다.", error })
     }
@@ -39,14 +39,14 @@ router.get("/:id", async (req, res) => {
         const { id } = req.params
 
         if (!ensureObjectId(id, res)) return;
-        const todo = await Todo.findById(id)
+        const bucket = await bucket.findById(id)
 
-        if (!todo) {
-            return res.status(404).json({ message: "해당 ID의 todo가 없습니다." })
+        if (!bucket) {
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
         }
 
 
-        res.status(200).json({ message: "1개  todo 불러오기 성공.", todo })
+        res.status(200).json({ message: "1개  bucket 불러오기 성공.", bucket })
 
 
     } catch (error) {
@@ -62,16 +62,16 @@ router.put("/:id", async (req, res) => {
 
         if (!ensureObjectId(id, res)) return;
 
-        const updated = await Todo.findByIdAndUpdate(id, updateData, {
+        const updated = await bucket.findByIdAndUpdate(id, updateData, {
             new: true,
             runValidators: true
         })
 
         if (!updated) {
-            return res.status(404).json({ message: "해당 ID의 todo가 없습니다." })
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
         }
 
-        res.status(200).json({ message: "1개  수정하기 성공.", todo: updated })
+        res.status(200).json({ message: "1개  수정하기 성공.", bucket: updated })
 
     } catch (error) {
         res.status(500).json({ message: "데이터를 불러오지 못했습니다.", error })
@@ -90,7 +90,7 @@ router.patch("/:id/check", async (req, res) => {
             return res.status(400).json({ message: "isCompleted는 boolean이어야 합니다." })
         }
 
-        const updated = await Todo.findByIdAndUpdate(
+        const updated = await bucket.findByIdAndUpdate(
             id,
             { isCompleted },
             {
@@ -100,9 +100,9 @@ router.patch("/:id/check", async (req, res) => {
             }
         )
         if (!updated) {
-            return res.status(404).json({ message: "해당 ID의 todo가 없습니다." })
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
         }
-        return res.status(200).json({ message: "체크상태 수정 성공", todo: updated })
+        return res.status(200).json({ message: "체크상태 수정 성공", bucket: updated })
 
     } catch (error) {
 
@@ -122,7 +122,7 @@ router.patch("/:id/text", async (req, res) => {
             return res.status(400).json({ message: "text는 필수 입니다." })
         }
 
-        const updated = await Todo.findByIdAndUpdate(
+        const updated = await bucket.findByIdAndUpdate(
             id,
             { text: text.trim() },
             {
@@ -132,9 +132,9 @@ router.patch("/:id/text", async (req, res) => {
             }
         )
         if (!updated) {
-            return res.status(404).json({ message: "해당 ID의 todo가 없습니다." })
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
         }
-        return res.status(200).json({ message: "체크상태 수정 성공", todo: updated })
+        return res.status(200).json({ message: "체크상태 수정 성공", bucket: updated })
 
     } catch (error) {
 
@@ -151,18 +151,18 @@ router.delete("/:id", async (req, res) => {
 
             res.status(400).json({ message: "유효하지 않은 ID 형식입니다." })
         }
-        const deleted = await Todo.findByIdAndDelete(id)
+        const deleted = await bucket.findByIdAndDelete(id)
 
 
         if (!deleted) {
-            return res.status(404).json({ message: "해당 ID의 todo가 없습니다." })
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
         }
 
-        const remaining = await Todo.find().sort({ createdAt: -1 })
+        const remaining = await bucket.find().sort({ createdAt: -1 })
         res.status(200).json({
             message: "1개  삭제하기 성공.",
             deletedId: deleted._id,
-            todos: remaining
+            buckets: remaining
         })
 
     } catch (error) {

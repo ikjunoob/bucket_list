@@ -1,7 +1,7 @@
-import './TodoEditor.css';
+import './bucketEditor.css';
 import React, { useState } from 'react';
 
-const TodoEditor = ({ onCreate }) => {
+const bucketEditor = ({ onCreate }) => {
 
     const [text, setText] = useState('')
 
@@ -16,10 +16,10 @@ const TodoEditor = ({ onCreate }) => {
     }
 
     return (
-        <form className="TodoEditor" onSubmit={onSubmit}>
+        <form className="bucketEditor" onSubmit={onSubmit}>
             <input
                 type='text'
-                placeholder="새로운 Todo..."
+                placeholder="새로운 bucket..."
                 value={text}
                 onChange={(e) => setText(e.target.value)}
             />
@@ -28,4 +28,4 @@ const TodoEditor = ({ onCreate }) => {
     );
 };
 
-export default TodoEditor;
+export default bucketEditor;
