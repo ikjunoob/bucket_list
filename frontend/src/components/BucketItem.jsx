@@ -1,6 +1,7 @@
 import React from 'react'
-import "./bucketItem.css"
-const bucketItem = ({ bucket, onDelete, onUpdateText, onUpdateChecked }) => {
+import "./BucketItem.css"
+
+const BucketItem = ({ bucket, onDelete, onUpdateText, onUpdateChecked }) => {
     return (
         <div className='bucketItem'>
             <input
@@ -30,6 +31,4 @@ const bucketItem = ({ bucket, onDelete, onUpdateText, onUpdateChecked }) => {
     )
 }
 
-
-
-export default bucketItem
+export default BucketItem

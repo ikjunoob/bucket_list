@@ -1,20 +1,20 @@
 import React from 'react'
-import './bucketList.css'
-import bucketItem from './bucketItem'
+import './BucketList.css'
+import BucketItem from './BucketItem'
 
-const bucketList = ({ buckets, onDelete, onUpdateText, onUpdateChecked }) => {
+const BucketList = ({ buckets, onDelete, onUpdateText, onUpdateChecked }) => {
     return (
         <div className='bucketList'>
-            <h4>bucket List 🌱</h4>
+            <h4>이건 하고 죽을래 🤑😁</h4>
             <input type="text" placeholder='검색어를 입력하세요' />
             <div className="buckets-wrapper">
                 {buckets.map((bucket) => (
-                    <bucketItem
+                    <BucketItem
                         key={bucket._id}
                         bucket={bucket}
                         onDelete={onDelete}
-                        onUpdateText={onUpdateText}       /* ✅ props 내려줌 */
-                        onUpdateChecked={onUpdateChecked} /* ✅ props 내려줌 */
+                        onUpdateText={onUpdateText}
+                        onUpdateChecked={onUpdateChecked}
                     />
                 ))}
             </div>
@@ -22,4 +22,4 @@ const bucketList = ({ buckets, onDelete, onUpdateText, onUpdateChecked }) => {
     )
 }
 
-export default bucketList
+export default BucketList
