@@ -1,22 +1,31 @@
 .bucketList {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
+}
+
+.bucketList>h4 {
+    margin: 4px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
 }
 
 .bucketList>input {
-    border: none;
-    border-bottom: 1px solid #c3c3c3;
-    padding: 15px 0;
+    border: 1px solid #e5e7eb;
+    padding: 12px 14px;
+    border-radius: 12px;
+    transition: border-color .2s, box-shadow .2s;
 }
 
 .bucketList>input:focus {
     outline: none;
-    border-bottom: 1px solid rgb(37, 147, 255);
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, .18);
 }
 
 .buckets-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 12px;
 }
