@@ -1,0 +1,34 @@
+.TodoList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.TodoList>input {
+    border: none;
+    border-bottom: 1px solid #c3c3c3;
+    padding: 15px 0;
+}
+
+.TodoList h4 {
+    color: white;
+    background-color: rgb(248, 119, 119);
+    width: 100%;
+    padding: 20px 10px;
+    text-align: center;
+    border-radius: 30px 30px 0 0;
+    background: linear-gradient(90deg, #facc15, #f97316, #ef4444);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.TodoList>input {
+    outline: none;
+    border-bottom: 2px dotted rgb(255, 0, 43);
+    border-top: 2px dotted blue;
+}
+
+.todos-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
