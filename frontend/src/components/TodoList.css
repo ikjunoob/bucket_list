@@ -23,8 +23,8 @@
 
 .TodoList>input {
     outline: none;
-    border-bottom: 2px dotted rgb(255, 0, 43);
-    border-top: 2px dotted blue;
+    border-bottom: 2px dashed rgb(255, 0, 43);
+    border-top: 2px dashed blue;
 }
 
 .todos-wrapper {
