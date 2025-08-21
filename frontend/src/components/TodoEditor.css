@@ -18,3 +18,10 @@
     width: 80px;
     background-color: rgb(37, 147, 255);
 }
+
+.TodoEditor .bucket-date {
+    width: 150px;
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
