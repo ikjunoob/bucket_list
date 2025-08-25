@@ -21,8 +21,8 @@ mongoose
     .catch((err) => console.log('연결 실패', err))
 
 
-const todoRoutes = require('./routes/todoRoutes')
-app.use('/api/todos', todoRoutes)
+// const todoRoutes = require('./routes/todoRoutes')
+// app.use('/api/todos', todoRoutes)
 
 app.get('/', (req, res) => {
     res.send('Hello Express!')
