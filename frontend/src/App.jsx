@@ -26,25 +26,20 @@ function App() {
     fetchBucket()
   }, [])
 
-  const onCreate = async (bucketText) => {
-    if (!bucketText.trim()) return
-
+  const onCreate = async (payload) => {
     try {
+      const res = await axios.post(API, payload); // { text, targetDate? }
 
-      const res = await axios.post(API, { text: bucketText.trim() })
-
-      const created = res.data?.bucket ?? res.data
-
+      const created = res.data?.bucket ?? res.data;
       if (Array.isArray(res.data?.bucket)) {
-        setBucket(res.data.bucket)
+        setBucket(res.data.bucket);
       } else {
-        setBucket(prev => [created, ...prev])
+        setBucket((prev) => [created, ...prev]);
       }
-
     } catch (error) {
-      console.log("추가 실패", error)
+      console.log('추가 실패', error);
     }
-  }
+  };
 
   const onDelete = async (id) => {
     try {

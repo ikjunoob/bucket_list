@@ -9,18 +9,26 @@ function dday(targetDate) {
     const t = new Date(targetDate); t.setHours(0, 0, 0, 0);
     const diff = Math.ceil((t - today) / (1000 * 60 * 60 * 24));
     if (diff > 0) return `D-${diff}`;
-    if (diff === 0) return "D-DAY";
+    if (diff === 0) return 'D-DAY';
     return `D+${Math.abs(diff)}`;
 }
 
-// 날짜 문자열 yyyy-mm-dd
+// yyyy-mm-dd
 const toYmd = (d) => new Date(d).toISOString().slice(0, 10);
-// bucket.date || bucket.createdAt || 오늘
-const pickDate = (b) => b?.date ?? b?.createdAt ?? new Date();
+// targetDate → date → createdAt → 오늘
+const pickDate = (b) => b?.targetDate ?? b?.date ?? b?.createdAt ?? new Date();
+
+// 안전한 날짜 출력
+const fmtDate = (value) => {
+    if (!value) return '-';
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? '-' : d.toLocaleDateString();
+};
 
 const BucketItem = ({ bucket, onDelete, onUpdateText, onUpdate, onUpdateChecked }) => {
-    // 서버의 bucket.date를 목표일로 간주
-    const ribbon = dday(bucket.date);
+    // 목표일을 우선하여 리본 계산
+    const target = bucket.targetDate ?? bucket.date;
+    const ribbon = dday(target);
 
     // 편집 상태
     const [editing, setEditing] = useState(false);
@@ -53,9 +61,9 @@ const BucketItem = ({ bucket, onDelete, onUpdateText, onUpdate, onUpdateChecked 
         }
         const nextDateISO = new Date(`${dateStr}T00:00:00`).toISOString();
 
-        // onUpdate(텍스트+날짜 모두) 우선 사용, 없으면 onUpdateText만 호출
+        // ✅ 키 이름은 항상 targetDate
         if (onUpdate) {
-            await onUpdate(bucket._id, { text: nextText, date: nextDateISO });
+            await onUpdate(bucket._id, { text: nextText, targetDate: nextDateISO });
         } else if (onUpdateText) {
             await onUpdateText(bucket._id, nextText);
         }
@@ -77,7 +85,6 @@ const BucketItem = ({ bucket, onDelete, onUpdateText, onUpdate, onUpdateChecked 
                 checked={!!bucket.isCompleted}
                 onChange={(e) => onUpdateChecked?.(bucket._id, e.target.checked)}
                 aria-label="완료 체크"
-                readOnly={false}
             />
 
             {editing ? (
@@ -104,7 +111,8 @@ const BucketItem = ({ bucket, onDelete, onUpdateText, onUpdate, onUpdateChecked 
             ) : (
                 <div className="content-wrap">
                     <div className="content">{bucket.text}</div>
-                    <div className="date">{bucket.date ? new Date(bucket.date).toLocaleDateString() : '-'}</div>
+                    {/* ✅ targetDate 우선, 안전 포맷터 사용 */}
+                    <div className="date">{fmtDate(bucket.targetDate ?? bucket.date)}</div>
                     <div className="btn-wrap">
                         <button className="updateBtn" onClick={startEdit}>수정</button>
                         <button className="deleteBtn" onClick={() => onDelete(bucket._id)}>삭제</button>
