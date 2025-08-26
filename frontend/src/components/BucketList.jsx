@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react'
 import './BucketList.css'
 import BucketItem from './BucketItem'
 
-const BucketList = ({ buckets = [], onDelete, onUpdateText, onUpdateChecked }) => {
+const BucketList = ({ buckets = [], onDelete, onUpdateText, onUpdate, onUpdateChecked }) => {
     const [query, setQuery] = useState('')
 
     // 대소문자 구분 없이 텍스트 포함 검색
@@ -40,6 +40,7 @@ const BucketList = ({ buckets = [], onDelete, onUpdateText, onUpdateChecked }) =
                             bucket={bucket}
                             onDelete={onDelete}
                             onUpdateText={onUpdateText}
+                            onUpdate={onUpdate}
                             onUpdateChecked={onUpdateChecked}
                         />
                     ))

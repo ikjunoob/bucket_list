@@ -74,6 +74,15 @@ function App() {
     }
   };
 
+  const onUpdate = async (id, patch) => {
+    try {
+      const { data } = await axios.put(`${API}/${id}`, patch); // server: { bucket: updated }
+      setBucket(prev => prev.map(b => (b._id === id ? data.bucket : b)));
+    } catch (e) {
+      console.log('수정 실패', e);
+    }
+  };
+
   // 체크박스 토글
   const onUpdateChecked = async (id, isCompleted) => {
     try {
@@ -94,6 +103,7 @@ function App() {
         buckets={Array.isArray(bucket) ? bucket : []}
         onDelete={onDelete}
         onUpdateText={onUpdateText}
+        onUpdate={onUpdate}
         onUpdateChecked={onUpdateChecked}
       />
     </div>
