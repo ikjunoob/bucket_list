@@ -18,7 +18,7 @@ const toYmd = (d) => new Date(d).toISOString().slice(0, 10);
 // targetDate → date → createdAt → 오늘
 const pickDate = (b) => b?.targetDate ?? b?.date ?? b?.createdAt ?? new Date();
 
-// 안전한 날짜 출력
+// 날짜 출력
 const fmtDate = (value) => {
     if (!value) return '-';
     const d = new Date(value);
