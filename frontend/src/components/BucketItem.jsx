@@ -1,5 +1,6 @@
 // components/TodoItem.jsx
 import React from 'react'
+<<<<<<< HEAD:frontend/src/components/TodoItem.jsx
 import "./TodoItem.css"
 
 // ✅ D-DAY 계산 (목표일 없을 땐 null)
@@ -35,19 +36,37 @@ const TodoItem = ({ todo, onDelete, onUpdateText, onUpdateChecked }) => {
                 {todo.date ? new Date(todo.date).toLocaleDateString() : '-'}
             </div>
 
+=======
+import "./BucketItem.css"
+
+const BucketItem = ({ bucket, onDelete, onUpdateText, onUpdateChecked }) => {
+    return (
+        <div className='bucketItem'>
+            <input
+                type="checkbox"
+                checked={bucket.isCompleted}
+                onChange={(e) => onUpdateChecked(bucket._id, e.target.checked)}
+            />
+            <div className="content">{bucket.text}</div>
+            <div className="date">{new Date(bucket.date).toLocaleDateString()}</div>
+>>>>>>> origin/woojin0819:frontend/src/components/BucketItem.jsx
             <div className="btn-wrap">
                 <button
                     className="updateBtn"
                     onClick={() => {
+<<<<<<< HEAD:frontend/src/components/TodoItem.jsx
                         const newText = prompt("목표 수정:", todo.text);
+=======
+                        const newText = prompt("새 텍스트 입력:", bucket.text);
+>>>>>>> origin/woojin0819:frontend/src/components/BucketItem.jsx
                         if (newText && newText.trim()) {
-                            onUpdateText(todo._id, newText.trim());
+                            onUpdateText(bucket._id, newText.trim());
                         }
                     }}
                 >
                     수정
                 </button>
-                <button className="deleteBtn" onClick={() => onDelete(todo._id)}>
+                <button className="deleteBtn" onClick={() => onDelete(bucket._id)}>
                     삭제
                 </button>
             </div>
@@ -55,4 +74,8 @@ const TodoItem = ({ todo, onDelete, onUpdateText, onUpdateChecked }) => {
     )
 }
 
+<<<<<<< HEAD:frontend/src/components/TodoItem.jsx
 export default TodoItem
+=======
+export default BucketItem
+>>>>>>> origin/woojin0819:frontend/src/components/BucketItem.jsx

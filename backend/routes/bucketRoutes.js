@@ -1,6 +1,10 @@
 const express = require("express")
 const router = express.Router();
+<<<<<<< HEAD
 const Bucket = require("../models/bucket");
+=======
+const bucket = require("../models/bucket");
+>>>>>>> origin/woojin0819
 const { default: mongoose } = require("mongoose");
 
 const ensureObjectId = (id, res) => {
@@ -15,9 +19,15 @@ const ensureObjectId = (id, res) => {
 // 할 일 추가하기
 router.post("/", async (req, res) => {
     try {
+<<<<<<< HEAD
         const newBucket = new Bucket(req.body);
         const savedBucket = await newBucket.save();
         res.status(201).json(savedBucket);
+=======
+        const newbucket = new bucket(req.body);
+        const savedbucket = await newbucket.save();
+        res.status(201).json(savedbucket);
+>>>>>>> origin/woojin0819
     } catch (err) {
         res.status(400).json({ error: "버킷리스트를 저장하지 못했습니다." });
     }
@@ -26,8 +36,13 @@ router.post("/", async (req, res) => {
 // 전체 불러오기
 router.get("/", async (req, res) => {
     try {
+<<<<<<< HEAD
         const bucket = await Bucket.find().sort({ createdAt: -1 })
         res.status(200).json({ message: " todo 전체 불러오기 성공.", bucket })
+=======
+        const buckets = await bucket.find().sort({ createdAt: -1 })
+        res.status(200).json({ message: " bucket 전체 불러오기 성공.", buckets })
+>>>>>>> origin/woojin0819
     } catch (error) {
         res.status(500).json({ message: "데이터를 불러오지 못했습니다.", error })
     }
@@ -39,6 +54,7 @@ router.get("/:id", async (req, res) => {
         const { id } = req.params
 
         if (!ensureObjectId(id, res)) return;
+<<<<<<< HEAD
         const bucket = await Bucket.findById(id)
 
         if (!bucket) {
@@ -47,6 +63,16 @@ router.get("/:id", async (req, res) => {
 
 
         res.status(200).json({ message: "1개  todo 불러오기 성공.", bucket })
+=======
+        const bucket = await bucket.findById(id)
+
+        if (!bucket) {
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
+        }
+
+
+        res.status(200).json({ message: "1개  bucket 불러오기 성공.", bucket })
+>>>>>>> origin/woojin0819
 
 
     } catch (error) {
@@ -63,13 +89,17 @@ router.put("/:id", async (req, res) => {
 
         if (!ensureObjectId(id, res)) return;
 
+<<<<<<< HEAD
         const updated = await Bucket.findByIdAndUpdate(id, updateData, {
+=======
+        const updated = await bucket.findByIdAndUpdate(id, updateData, {
+>>>>>>> origin/woojin0819
             new: true,
             runValidators: true
         })
 
         if (!updated) {
-            return res.status(404).json({ message: "해당 ID의 todo가 없습니다." })
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
         }
 
         res.status(200).json({ message: "1개  수정하기 성공.", bucket: updated })
@@ -91,7 +121,11 @@ router.patch("/:id/check", async (req, res) => {
             return res.status(400).json({ message: "isCompleted는 boolean이어야 합니다." })
         }
 
+<<<<<<< HEAD
         const updated = await Bucket.findByIdAndUpdate(
+=======
+        const updated = await bucket.findByIdAndUpdate(
+>>>>>>> origin/woojin0819
             id,
             { isCompleted },
             {
@@ -101,7 +135,11 @@ router.patch("/:id/check", async (req, res) => {
             }
         )
         if (!updated) {
+<<<<<<< HEAD
             return res.status(404).json({ message: "해당 ID의 버킷리스트가 없습니다." })
+=======
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
+>>>>>>> origin/woojin0819
         }
         return res.status(200).json({ message: "체크상태 수정 성공", bucket: updated })
 
@@ -124,7 +162,11 @@ router.patch("/:id/text", async (req, res) => {
             return res.status(400).json({ message: "text는 필수 입니다." })
         }
 
+<<<<<<< HEAD
         const updated = await Bucket.findByIdAndUpdate(
+=======
+        const updated = await bucket.findByIdAndUpdate(
+>>>>>>> origin/woojin0819
             id,
             { text: text.trim() },
             {
@@ -134,9 +176,15 @@ router.patch("/:id/text", async (req, res) => {
             }
         )
         if (!updated) {
+<<<<<<< HEAD
             return res.status(404).json({ message: "해당 ID의 버킷리스트가 없습니다." })
         }
         return res.status(200).json({ message: "텍스트 수정 성공", todo: updated })
+=======
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
+        }
+        return res.status(200).json({ message: "체크상태 수정 성공", bucket: updated })
+>>>>>>> origin/woojin0819
 
     } catch (error) {
 
@@ -154,18 +202,30 @@ router.delete("/:id", async (req, res) => {
 
             res.status(400).json({ message: "유효하지 않은 ID 형식입니다." })
         }
+<<<<<<< HEAD
         const deleted = await Bucket.findByIdAndDelete(id)
+=======
+        const deleted = await bucket.findByIdAndDelete(id)
+>>>>>>> origin/woojin0819
 
 
         if (!deleted) {
-            return res.status(404).json({ message: "해당 ID의 todo가 없습니다." })
+            return res.status(404).json({ message: "해당 ID의 bucket가 없습니다." })
         }
 
+<<<<<<< HEAD
         const remaining = await Bucket.find().sort({ createdAt: -1 })
         res.status(200).json({
             message: "1개  삭제하기 성공.",
             deletedId: deleted._id,
             bucketlist: remaining
+=======
+        const remaining = await bucket.find().sort({ createdAt: -1 })
+        res.status(200).json({
+            message: "1개  삭제하기 성공.",
+            deletedId: deleted._id,
+            buckets: remaining
+>>>>>>> origin/woojin0819
         })
 
     } catch (error) {

@@ -1,1 +1,36 @@
+<<<<<<< HEAD
 
+=======
+/* Header.jsx 내 요소만 타겟팅 */
+.Header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.Header h3 {
+    margin: 0;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: .06em;
+}
+
+.Header h1 {
+    margin: 0;
+    line-height: 1.1;
+}
+
+.Header h1:nth-of-type(1) {
+    font-size: 22px;
+    color: #6b7280;
+}
+
+.Header h1:nth-of-type(2) {
+    font-size: 34px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+>>>>>>> origin/woojin0819

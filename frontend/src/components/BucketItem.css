@@ -1,0 +1,63 @@
+.bucketItem {
+    display: grid;
+    grid-template-columns: 22px 1fr auto auto;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1px solid #eef0f4;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+    transition: transform .1s ease, box-shadow .2s ease;
+}
+
+.bucketItem:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .06);
+}
+
+.bucketItem .content {
+    font-size: 16px;
+    word-break: break-word;
+}
+
+.bucketItem .date {
+    font-size: 13px;
+    color: #6b7280;
+    padding-left: 8px;
+}
+
+.btn-wrap {
+    display: flex;
+    gap: 8px;
+}
+
+.bucketItem button {
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 12px;
+    color: #fff;
+    font-weight: 700;
+    transition: filter .15s, transform .05s;
+}
+
+.updateBtn {
+    background-color: #10b981;
+}
+
+.deleteBtn {
+    background-color: #ef4444;
+}
+
+.bucketItem button:active {
+    transform: translateY(1px);
+}
+
+/* 체크박스 살짝 키우고 테마 색상 */
+.bucketItem input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #2563eb;
+}

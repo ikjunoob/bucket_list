@@ -1,0 +1,46 @@
+.bucketEditor {
+    display: grid;
+    grid-template-columns: 1fr 96px;
+    gap: 12px;
+    align-items: center;
+}
+
+.bucketEditor input {
+    padding: 14px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.bucketEditor input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, .25);
+}
+
+.bucketEditor button {
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 700;
+    background-color: #2563eb;
+    box-shadow: 0 6px 14px rgba(37, 99, 235, .18);
+    padding: 12px 0;
+    transition: filter .15s, transform .05s;
+}
+
+.bucketEditor button:hover {
+    filter: brightness(1.05);
+}
+
+.bucketEditor button:active {
+    transform: translateY(1px);
+}
+
+.bucketEditor button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
