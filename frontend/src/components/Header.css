@@ -1,3 +1,112 @@
-header h1{
-    color: rgb(37, 147, 255);
+/* Header.css */
+.Header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px 10px;
+    border-radius: 12px;
+
+    /* 기본 하늘 그라데이션: 우측상단 -> 좌측하단 */
+    background: linear-gradient(to bottom left,
+            #aee2ff 0%,
+            #60a5fa 40%,
+            #2563eb 100%);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+    /* 오버레이 배치를 위한 */
+    position: relative;
+    overflow: hidden;
+}
+
+/* ☀️ 날카로운 햇살 (빛줄기) */
+/* ☀️ 날카로운데 경계는 부드러운 빛줄기 */
+.Header::before {
+    content: "";
+    position: absolute;
+    inset: -20% -20% 0 0;
+    /* 우상단 기준 여유 */
+    pointer-events: none;
+
+    /* 밝은→반투명→투명으로 서서히 사라지는 반복 패턴 */
+    background:
+        /* 보케(은은한 번짐) */
+        radial-gradient(220px 220px at 100% 0%,
+            rgba(255, 255, 255, 0.22) 0%,
+            rgba(255, 255, 255, 0.10) 35%,
+            rgba(255, 255, 255, 0.00) 70%),
+        /* 부드러운 가장자리의 빛줄기 */
+        repeating-conic-gradient(from -25deg at 100% 0%,
+            rgba(255, 255, 255, 0.40) 0deg,
+            /* 중심부 밝음 */
+            rgba(255, 255, 255, 0.18) 3deg,
+            /* 경계 살짝 낮춤 → 소프트 엣지 */
+            rgba(255, 255, 255, 0.00) 10deg
+            /* 완전 투명으로 페이드아웃 */
+        );
+
+    /* 빛의 퍼짐 방향/길이 마스킹(끝이 자연스럽게 사라지도록) */
+    -webkit-mask:
+        radial-gradient(200px 200px at 100% 0%, #000 0%, transparent 72%),
+        linear-gradient(to bottom left, #000 38%, transparent 82%);
+    mask:
+        radial-gradient(200px 200px at 100% 0%, #000 0%, transparent 72%),
+        linear-gradient(to bottom left, #000 38%, transparent 82%);
+
+    mix-blend-mode: screen;
+    opacity: 0.45;
+    /* 전체 강도 살짝 낮춤 */
+}
+
+/* 🔆 글레어(태양 중심부) 살짝만 */
+/* 🔆 태양 중심부 */
+/* 🔆 태양 중심부 (우측 상단 모서리 걸침 + 더 강한 빛) */
+.Header::after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    /* 해 크기 키움 */
+    height: 200px;
+    right: -60px;
+    /* 모서리 바깥으로 조금 빼서 걸치게 */
+    top: -60px;
+    pointer-events: none;
+
+    background: radial-gradient(circle,
+            rgba(255, 255, 220, 1) 0%,
+            /* 중심부 → 진한 노란빛 흰색 */
+            rgba(255, 255, 255, 0.85) 25%,
+            /* 빛나는 하이라이트 */
+            rgba(255, 255, 255, 0.0) 70%
+            /* 가장자리 투명 처리 */
+        );
+
+    border-radius: 50%;
+    filter: blur(12px);
+    /* 더 퍼지면서 빛나는 느낌 */
+    mix-blend-mode: screen;
+    opacity: 0.95;
+    /* 진하게 보이도록 거의 불투명 */
+}
+
+
+
+/* 보조 제목/메인 날짜는 그대로 */
+.Header h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+.Header h1 {
+    margin: 4px 0 0;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
