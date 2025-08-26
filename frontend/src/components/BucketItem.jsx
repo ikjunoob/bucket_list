@@ -106,7 +106,7 @@ const BucketItem = ({ bucket, onDelete, onUpdateText, onUpdate, onUpdateChecked 
                     <div className="content">{bucket.text}</div>
                     <div className="date">{bucket.date ? new Date(bucket.date).toLocaleDateString() : '-'}</div>
                     <div className="btn-wrap">
-                        <button className="updateBtn" onClick={startEdit}>수정하기</button>
+                        <button className="updateBtn" onClick={startEdit}>수정</button>
                         <button className="deleteBtn" onClick={() => onDelete(bucket._id)}>삭제</button>
                     </div>
                 </div>
