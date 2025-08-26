@@ -1,5 +1,4 @@
-// components/BucketItem.jsx
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import "./BucketItem.css"
 
 // D-DAY 계산 (목표일 없을 땐 null)
@@ -13,46 +12,113 @@ function dday(targetDate) {
     return `D+${Math.abs(diff)}`;
 }
 
-const BucketItem = ({ bucket, onDelete, onUpdateText, onUpdateChecked }) => {
-    // 서버의 bucket.date를 목표일로 간주
-    const ribbon = dday(bucket.date)
+// 로컬 yyyy-mm-dd
+const toYmdLocal = (d) => {
+    const dt = new Date(d);
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, '0');
+    const day = String(dt.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+};
+
+// 표시/편집 기본 날짜: targetDate 우선, 없으면 date(생성일), 둘 다 없으면 오늘
+const pickDate = (t) => t?.targetDate ?? t?.date ?? t?.createdAt ?? new Date();
+
+const BucketItem = ({ bucket, onDelete, onUpdateChecked, onUpdateTodo }) => {
+    const [editing, setEditing] = useState(false);
+    const [text, setText] = useState(bucket.text);
+    const isCompleted = !!bucket.isCompleted;
+
+    const [dateStr, setDateStr] = useState(toYmdLocal(pickDate(bucket)));
+
+    useEffect(() => {
+        if (!editing) {
+            setText(bucket.text);
+            setDateStr(toYmdLocal(pickDate(bucket)));
+        }
+    }, [bucket, editing]);
+
+    const startEdit = () => {
+        setText(bucket.text);
+        setDateStr(toYmdLocal(pickDate(bucket)));
+        setEditing(true);
+    };
+
+    const cancelEdit = () => {
+        setText(bucket.text);
+        setDateStr(toYmdLocal(pickDate(bucket)));
+        setEditing(false);
+    };
+
+    const saveEdit = async () => {
+        const next = text.trim();
+        const prevYmd = toYmdLocal(pickDate(bucket));
+        if (!next || (next === bucket.text && prevYmd === dateStr)) {
+            return setEditing(false);
+        }
+        const nextTargetISO = new Date(`${dateStr}T00:00:00`).toISOString();
+        await onUpdateTodo(bucket._id, { text: next, targetDate: nextTargetISO });
+        setEditing(false);
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') saveEdit();
+        if (e.key === 'Escape') cancelEdit();
+    };
+
+    const ribbon = dday(bucket.targetDate ?? bucket.date);
 
     return (
-        <div className={`BucketItem ${bucket.isCompleted ? 'isCompleted' : ''}`}>
-            {/*  D-DAY 리본 */}
+        <div className={`BucketItem ${isCompleted ? 'isCompleted' : ''}`}>
+            {/* D-DAY 리본 */}
             {ribbon && <span className={`ribbon ${ribbon === 'D-DAY' ? 'today' : ''}`}>{ribbon}</span>}
 
             <input
                 type="checkbox"
                 checked={bucket.isCompleted}
-                onChange={(e) => onUpdateChecked(bucket._id, e.target.checked)}
-                aria-label="완료 체크"
+                onChange={() => onUpdateChecked(bucket._id, !bucket.isCompleted)}
+                readOnly
             />
 
-            <div className="content">{bucket.text}</div>
+            {editing ? (
+                <div className="edit-wrap">
+                    <input
+                        type="text"
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="수정할 내용을 입력하세요"
+                    />
 
-            <div className="date">
-                {bucket.date ? new Date(bucket.date).toLocaleDateString() : '-'}
-            </div>
+                    <div className="date">
+                        <input
+                            type="date"
+                            value={dateStr}
+                            onChange={(e) => setDateStr(e.target.value)}
+                        />
+                    </div>
 
-            <div className="btn-wrap">
-                <button
-                    className="updateBtn"
-                    onClick={() => {
-                        const newText = prompt("목표 수정:", bucket.text);
-                        if (newText && newText.trim()) {
-                            onUpdateText(bucket._id, newText.trim());
-                        }
-                    }}
-                >
-                    수정
-                </button>
-                <button className="deleteBtn" onClick={() => onDelete(bucket._id)}>
-                    삭제
-                </button>
-            </div>
+                    <div className="btn-wrap">
+                        <button className="updateBtn" onClick={saveEdit}>저장하기</button>
+                        <button className="deleteBtn" onClick={cancelEdit}>취소</button>
+                    </div>
+                </div>
+            ) : (
+                <div className="content-wrap">
+                    <div className="content">{bucket.text}</div>
+                    <div className="date">
+                        {(bucket.targetDate ?? bucket.date)
+                            ? new Date(bucket.targetDate ?? bucket.date).toLocaleDateString()
+                            : '-'}
+                    </div>
+                    <div className="btn-wrap">
+                        <button className="updateBtn" onClick={startEdit}>수정</button>
+                        <button className="deleteBtn" onClick={() => onDelete(bucket._id)}>삭제</button>
+                    </div>
+                </div>
+            )}
         </div>
-    )
-}
+    );
+};
 
-export default BucketItem
+export default BucketItem;

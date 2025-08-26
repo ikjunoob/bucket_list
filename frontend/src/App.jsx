@@ -6,7 +6,6 @@ import BucketEditor from './components/BucketEditor';
 import BucketList from './components/BucketList';
 
 function App() {
-
   const [bucket, setBucket] = useState([])
   const API = `${import.meta.env.VITE_API_URL}/api/bucket`
 
@@ -14,33 +13,26 @@ function App() {
     const fetchBucket = async () => {
       try {
         const res = await axios.get(API)
-        const data = Array.isArray(res.data) ? res.data : res.data.bucket ?? []
-
+        const data = Array.isArray(res.data) ? res.data : (res.data.bucket ?? [])
         setBucket(data)
-        console.log(data)
-
       } catch (error) {
-
+        console.log('불러오기 실패', error)
       }
     }
     fetchBucket()
+
   }, [])
 
   const onCreate = async (bucketText) => {
     if (!bucketText.trim()) return
-
     try {
-
       const res = await axios.post(API, { text: bucketText.trim() })
-
       const created = res.data?.bucket ?? res.data
-
       if (Array.isArray(res.data?.bucket)) {
         setBucket(res.data.bucket)
       } else {
         setBucket(prev => [created, ...prev])
       }
-
     } catch (error) {
       console.log("추가 실패", error)
     }
@@ -49,30 +41,17 @@ function App() {
   const onDelete = async (id) => {
     try {
       if (!confirm('정말 삭제할까요?')) return
-
       const { data } = await axios.delete(`${API}/${id}`)
-
       if (Array.isArray(data?.bucket)) {
         setBucket(data.bucket)
         return
       }
-
       const deletedId = data?.deletedId ?? data?.bucket?._id ?? data?._id ?? id
-      setBucket((prev) => prev.filter((t) => t._id !== deletedId))
+      setBucket(prev => prev.filter(t => t._id !== deletedId))
     } catch (error) {
       console.log('삭제 실패', error)
     }
   }
-
-  // 텍스트 수정
-  const onUpdateText = async (id, newText) => {
-    try {
-      const { data } = await axios.patch(`${API}/${id}/text`, { text: newText });
-      setBucket(prev => prev.map(t => (t._id === id ? data.bucket : t)));
-    } catch (error) {
-      console.log("수정 실패", error);
-    }
-  };
 
   // 체크박스 토글
   const onUpdateChecked = async (id, isCompleted) => {
@@ -84,7 +63,16 @@ function App() {
     }
   };
 
-
+  // 인라인 편집 저장: 텍스트 + 목표일(targetDate) 한 번에 업데이트
+  const onUpdateTodo = async (id, { text, targetDate }) => {
+    try {
+      const { data } = await axios.put(`${API}/${id}`, { text, targetDate });
+      const updated = data?.bucket ?? data;
+      setBucket(prev => prev.map(b => (b._id === id ? updated : b)));
+    } catch (error) {
+      console.log("저장 실패", error);
+    }
+  };
 
   return (
     <div className='App'>
@@ -93,8 +81,8 @@ function App() {
       <BucketList
         buckets={Array.isArray(bucket) ? bucket : []}
         onDelete={onDelete}
-        onUpdateText={onUpdateText}
         onUpdateChecked={onUpdateChecked}
+        onUpdateTodo={onUpdateTodo}
       />
     </div>
   );
