@@ -47,7 +47,7 @@ function App() {
 
       const { data } = await axios.delete(`${API}/${id}`)
 
-      if (Array.isArray(data?.bucket)) {
+      if (Array.isArray(data?.bucket)) {  
         setBucket(data.bucket)
         return
       }
