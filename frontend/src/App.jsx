@@ -2,43 +2,43 @@ import { useState, useEffect } from 'react';
 import axios from 'axios'
 import './App.css';
 import Header from './components/Header';
-import TodoEditor from './components/TodoEditor';
-import TodoList from './components/TodoList';
+import BucketEditor from './components/BucketEditor';
+import BucketList from './components/BucketList';
 
 function App() {
 
-  const [todos, setTodos] = useState([])
-  const API = `${import.meta.env.VITE_API_URL}/api/todos`
+  const [bucket, setBucket] = useState([])
+  const API = `${import.meta.env.VITE_API_URL}/api/bucket`
 
   useEffect(() => {
-    const fetchTodos = async () => {
+    const fetchBucket = async () => {
       try {
         const res = await axios.get(API)
-        const data = Array.isArray(res.data) ? res.data : res.data.todos ?? []
+        const data = Array.isArray(res.data) ? res.data : res.data.bucket ?? []
 
-        setTodos(data)
+        setBucket(data)
         console.log(data)
 
       } catch (error) {
 
       }
     }
-    fetchTodos()
+    fetchBucket()
   }, [])
 
-  const onCreate = async (todoText) => {
-    if (!todoText.trim()) return
+  const onCreate = async (bucketText) => {
+    if (!bucketText.trim()) return
 
     try {
 
-      const res = await axios.post(API, { text: todoText.trim() })
+      const res = await axios.post(API, { text: bucketText.trim() })
 
-      const created = res.data?.todo ?? res.data
+      const created = res.data?.bucket ?? res.data
 
-      if (Array.isArray(res.data?.todos)) {
-        setTodos(res.data.todos)
+      if (Array.isArray(res.data?.bucket)) {
+        setBucket(res.data.bucket)
       } else {
-        setTodos(prev => [created, ...prev])
+        setBucket(prev => [created, ...prev])
       }
 
     } catch (error) {
@@ -52,13 +52,13 @@ function App() {
 
       const { data } = await axios.delete(`${API}/${id}`)
 
-      if (Array.isArray(data?.todos)) {
-        setTodos(data.todos)
+      if (Array.isArray(data?.bucket)) {
+        setBucket(data.bucket)
         return
       }
 
-      const deletedId = data?.deletedId ?? data?.todo?._id ?? data?._id ?? id
-      setTodos((prev) => prev.filter((t) => t._id !== deletedId))
+      const deletedId = data?.deletedId ?? data?.bucket?._id ?? data?._id ?? id
+      setBucket((prev) => prev.filter((t) => t._id !== deletedId))
     } catch (error) {
       console.log('삭제 실패', error)
     }
@@ -68,7 +68,7 @@ function App() {
   const onUpdateText = async (id, newText) => {
     try {
       const { data } = await axios.patch(`${API}/${id}/text`, { text: newText });
-      setTodos(prev => prev.map(t => (t._id === id ? data.todo : t)));
+      setBucket(prev => prev.map(t => (t._id === id ? data.bucket : t)));
     } catch (error) {
       console.log("수정 실패", error);
     }
@@ -78,7 +78,7 @@ function App() {
   const onUpdateChecked = async (id, isCompleted) => {
     try {
       const { data } = await axios.patch(`${API}/${id}/check`, { isCompleted });
-      setTodos(prev => prev.map(t => (t._id === id ? data.todo : t)));
+      setBucket(prev => prev.map(t => (t._id === id ? data.bucket : t)));
     } catch (error) {
       console.log("체크 수정 실패", error);
     }
@@ -89,12 +89,12 @@ function App() {
   return (
     <div className='App'>
       <Header />
-      <TodoEditor onCreate={onCreate} />
-      <TodoList
-        todos={Array.isArray(todos) ? todos : []}
+      <BucketEditor onCreate={onCreate} />
+      <BucketList
+        buckets={Array.isArray(bucket) ? bucket : []}
         onDelete={onDelete}
-        // onUpdateText={onUpdateText}
-        // onUpdateChecked={onUpdateChecked}
+      // onUpdateText={onUpdateText}
+      // onUpdateChecked={onUpdateChecked}
       />
     </div>
   );
