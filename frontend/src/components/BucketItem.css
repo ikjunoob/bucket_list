@@ -1,120 +1,19 @@
-.BucketItem {
-    display: flex;
-    gap: 20px;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-    /* justify-content: space-between; */
-}
+/* components/BucketItem.css */
 
-.BucketItem.isCompleted {
-    background-color: #f1f1f1;
-}
-
-.BucketItem .content {
-    flex: 1;
-}
-
-.BucketItem .date {
-    font-size: 14px;
-    color: gray;
-}
-
-.btn-wrap {
-    display: flex;
-    gap: 10px;
-}
-
-.BucketItem button {
-    cursor: pointer;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    color: #fff
-}
-
-.updateBtn {
-    background-color: rgb(80, 223, 180);
-}
-
-.deleteBtn {
-    background-color: rgb(255, 121, 112);
-}
-
-.BucketItem.isCompleted .content {
-    text-decoration: line-through;
-    color: gray;
-}
-
-/* Bucket 스타일 추가 */
+/* ===== 공통 카드 ===== */
 .BucketItem {
     position: relative;
     display: flex;
-    gap: 13px;
     align-items: center;
-    padding: 14px 12px;
-    border: 1px solid #eee;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     background: #fff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .03);
 }
 
-/* 상단 왼쪽 D-DAY 리본 */
-.BucketItem .ribbon {
-    position: absolute;
-    top: -13px;
-    left: -10px;
-    background: rgb(37, 147, 255);
-    color: #fff;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(37, 147, 255, 0.25);
-}
-
-.BucketItem .ribbon.today {
-    background: #ff6b6b;
-}
-
-.BucketItem .content {
-    flex: 1;
-    font-weight: 600;
-    line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.BucketItem .date {
-    min-width: 96px;
-    text-align: right;
-    font-size: 13px;
-    color: #6b7280;
-}
-
-.btn-wrap {
-    display: flex;
-    gap: 8px;
-}
-
-.BucketItem button {
-    cursor: pointer;
-    font-size: 13px;
-    border: none;
-    border-radius: 999px;
-    padding: 6px 10px;
-    color: #fff;
-}
-
-.updateBtn {
-    background-color: rgb(80, 223, 180);
-}
-
-.deleteBtn {
-    background-color: rgb(255, 121, 112);
-}
-
+/* 완료 상태 */
 .BucketItem.isCompleted {
     background: #f7f7f7;
     border-color: #eee;
@@ -131,4 +30,140 @@
     right: 10px;
     top: -10px;
     font-size: 20px;
+}
+
+/* 체크박스 */
+.BucketItem input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: rgb(80, 223, 180);
+}
+
+/* D-DAY 리본 */
+.BucketItem .ribbon {
+    position: absolute;
+    top: -13px;
+    left: -10px;
+    background: rgb(37, 147, 255);
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(37, 147, 255, .25);
+}
+
+.BucketItem .ribbon.today {
+    background: #ff6b6b;
+}
+
+/* ===== 보기 모드 ===== */
+.BucketItem .content-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.BucketItem .content {
+    flex: 1;
+    font-weight: 600;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.BucketItem .date {
+    min-width: 110px;
+    text-align: right;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* ===== 편집 모드 ===== */
+.BucketItem .edit-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.BucketItem .edit-wrap input[type="text"] {
+    flex: 1;
+    min-width: 0;
+    /* 텍스트 입력이 잘 줄어들도록 */
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+}
+
+.BucketItem .edit-wrap input[type="text"]:focus,
+.BucketItem .edit-wrap .date input[type="date"]:focus {
+    border-color: rgb(80, 223, 180);
+    box-shadow: 0 0 0 3px rgba(80, 223, 180, .15);
+}
+
+.BucketItem .edit-wrap .date {
+    min-width: 140px;
+    text-align: right;
+}
+
+.BucketItem .edit-wrap .date input[type="date"] {
+    width: 140px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #374151;
+    background: #fff;
+}
+
+/* 버튼 공통 */
+.BucketItem .btn-wrap {
+    display: flex;
+    gap: 8px;
+}
+
+.BucketItem button {
+    cursor: pointer;
+    font-size: 13px;
+    border: none;
+    border-radius: 999px;
+    padding: 6px 12px;
+    color: #fff;
+    transition: transform .02s ease-in;
+}
+
+.BucketItem button:active {
+    transform: translateY(1px);
+}
+
+.BucketItem .updateBtn {
+    background-color: rgb(80, 223, 180);
+}
+
+.BucketItem .deleteBtn {
+    background-color: rgb(255, 121, 112);
+}
+
+/* ===== 반응형 보완 ===== */
+@media (max-width: 480px) {
+
+    .BucketItem .date,
+    .BucketItem .edit-wrap .date {
+        min-width: 100px;
+    }
+
+    .BucketItem .edit-wrap {
+        gap: 8px;
+    }
+
+    .BucketItem .edit-wrap .date input[type="date"] {
+        width: 120px;
+    }
 }
