@@ -93,8 +93,8 @@ function App() {
       <BucketList
         buckets={Array.isArray(bucket) ? bucket : []}
         onDelete={onDelete}
-      // onUpdateText={onUpdateText}
-      // onUpdateChecked={onUpdateChecked}
+        onUpdateText={onUpdateText}
+        onUpdateChecked={onUpdateChecked}
       />
     </div>
   );
